@@ -109,9 +109,15 @@ function logout() {
 }
 
 // --- AUTHENTICATION ---
-function demoFill() {
+function demoFillFaculty() {
     document.getElementById('faculty-id').value = '123456';
     document.getElementById('faculty-pass').value = '1234';
+    handleFacultyLogin();
+}
+
+function demoFillStudent() {
+    document.getElementById('student-enroll').value = '12024002037046';
+    document.getElementById('student-pass').value = '1234';
 }
 
 function handleFacultyLogin(event) {
@@ -553,19 +559,28 @@ function renderLayout() {
     container.innerHTML = '<div class="layout-grid"></div>';
     const grid = container.querySelector('.layout-grid');
 
-    for(let i=1; i<=cap; i++) {
-        const student = filtered.find(a => a.seat == i);
-        const cell = document.createElement('div');
-        cell.className = 'seat';
-        if(student) {
-            cell.classList.add('occupied');
-            cell.title = student.name;
-            cell.innerHTML = `${i}`;
-        } else {
-            cell.innerHTML = `<span style="opacity:0.2">${i}</span>`;
+    // Show a loading/processing message for UI feedback
+    const originalText = container.innerHTML;
+    container.innerHTML = '<div style="text-align:center; padding:2rem; color:var(--gold);">Generating matrix map...</div>';
+
+    setTimeout(() => {
+        container.innerHTML = originalText;
+        const grid = container.querySelector('.layout-grid');
+        for(let i=1; i<=cap; i++) {
+            const student = filtered.find(a => parseInt(a.seat) === i);
+            const cell = document.createElement('div');
+            cell.className = 'seat';
+            if(student) {
+                cell.classList.add('occupied');
+                cell.title = `${student.name} (${student.stream})`;
+                cell.innerHTML = `S${i}`;
+            } else {
+                cell.innerHTML = `${i}`;
+                cell.style.opacity = '0.3';
+            }
+            grid.appendChild(cell);
         }
-        grid.appendChild(cell);
-    }
+    }, 300);
 }
 
 // --- ALL ALLOCATIONS ---

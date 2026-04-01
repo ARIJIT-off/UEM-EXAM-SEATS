@@ -16,6 +16,46 @@
     
     <!-- Application Styles -->
     <link rel="stylesheet" href="index.css">
+    <style>
+        /* Room Topology Grid Fix */
+        .layout-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)) !important;
+            gap: 15px !important;
+            padding: 30px !important;
+            background: rgba(0, 0, 0, 0.4) !important;
+            border-radius: 20px !important;
+            border: 1px solid var(--glass-border) !important;
+            width: 100% !important;
+            min-height: 200px;
+        }
+
+        .seat {
+            aspect-ratio: 1 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 12px !important;
+            font-size: 0.7rem !important;
+            color: var(--white) !important;
+            transition: var(--transition);
+            min-height: 75px !important;
+        }
+
+        .seat.occupied {
+            background: linear-gradient(135deg, var(--gold), #ff8c00) !important;
+            color: var(--navy) !important;
+            font-weight: 800 !important;
+            border: none;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4) !important;
+            transform: scale(0.98) !important;
+        }
+
+        .seat i { margin-bottom: 5px; opacity: 0.6; font-size: 0.6rem; display: block; font-style: normal; text-transform: uppercase; letter-spacing: 1px; }
+    </style>
 </head>
 <body>
 

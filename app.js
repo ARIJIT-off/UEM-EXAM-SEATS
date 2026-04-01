@@ -551,36 +551,34 @@ function renderLayout() {
     const allAlloc = Object.values(JSON.parse(localStorage.getItem('seatAllocation') || '{}'));
     
     const bCode = Object.keys(BUILDINGS).find(k => room.startsWith(k));
-    const floorNum = room.includes('RRR') ? '4' : room.split('.')[0].slice(-1);
-    const cap = BUILDINGS[bCode].caps[floorNum];
+    // Fixed parsing for floor number
+    const floorPart = room.split('.')[0];
+    const floorNum = room.includes('RRR') ? '4' : floorPart.charAt(floorPart.length - 1);
+    const cap = BUILDINGS[bCode].caps[floorNum] || 30;
 
     const filtered = allAlloc.filter(a => a.room === room);
     const container = document.getElementById('layout-display-container');
+    
+    // Direct rendering to avoid DOM removal/insertion issues in timeouts
+    console.log(`Rendering Room: ${room}, Capacity: ${cap}`);
     container.innerHTML = '<div class="layout-grid"></div>';
     const grid = container.querySelector('.layout-grid');
 
-    // Show a loading/processing message for UI feedback
-    const originalText = container.innerHTML;
-    container.innerHTML = '<div style="text-align:center; padding:2rem; color:var(--gold);">Generating matrix map...</div>';
-
-    setTimeout(() => {
-        container.innerHTML = originalText;
-        const grid = container.querySelector('.layout-grid');
-        for(let i=1; i<=cap; i++) {
-            const student = filtered.find(a => parseInt(a.seat) === i);
-            const cell = document.createElement('div');
-            cell.className = 'seat';
-            if(student) {
-                cell.classList.add('occupied');
-                cell.title = `${student.name} (${student.stream})`;
-                cell.innerHTML = `S${i}`;
-            } else {
-                cell.innerHTML = `${i}`;
-                cell.style.opacity = '0.3';
-            }
-            grid.appendChild(cell);
+    for(let i=1; i<=cap; i++) {
+        const student = filtered.find(a => parseInt(a.seat) === i);
+        const cell = document.createElement('div');
+        cell.className = 'seat';
+        
+        if(student) {
+            cell.classList.add('occupied');
+            cell.title = `${student.name} (${student.stream})`;
+            cell.innerHTML = `<i>Seat</i>${i}`;
+        } else {
+            cell.innerHTML = `<i>Available</i>${i}`;
+            cell.style.opacity = '0.3';
         }
-    }, 300);
+        grid.appendChild(cell);
+    }
 }
 
 // --- ALL ALLOCATIONS ---

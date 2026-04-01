@@ -101,8 +101,7 @@
                         <input type="password" id="faculty-pass" placeholder="Enter 4-digit Pin" maxlength="4">
                     </div>
                     <div style="display: flex; gap: 10px;">
-                        <button type="submit" class="btn-gold" style="flex: 2;">FACULTY AUTHORIZATION</button>
-                        <button type="button" class="nav-btn-back" style="flex: 1; border-radius: 12px;" onclick="demoFillFaculty()">DEMO</button>
+                        <button type="submit" class="btn-gold" style="width: 100%;">FACULTY AUTHORIZATION</button>
                     </div>
                 </form>
             </div>
@@ -121,10 +120,7 @@
                     <label>Academic Pin (4 Digits)</label>
                     <input type="password" id="student-pass" maxlength="4" placeholder="••••" oninput="this.value=this.value.replace(/\D/g,'')">
                 </div>
-                <div style="display: flex; gap: 10px; margin-top: 1rem;">
-                    <button class="btn-gold" style="flex: 2;" onclick="studentLogin()">Access Seating</button>
-                    <button class="nav-btn-back" style="flex: 1; border-radius: 12px;" onclick="demoFillStudent()">DEMO</button>
-                </div>
+                <button class="btn-gold" style="width: 100%; margin-top: 1rem;" onclick="studentLogin()">Access Seating</button>
             </div>
         </div>
 

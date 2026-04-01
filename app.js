@@ -109,17 +109,6 @@ function logout() {
 }
 
 // --- AUTHENTICATION ---
-function demoFillFaculty() {
-    document.getElementById('faculty-id').value = '123456';
-    document.getElementById('faculty-pass').value = '1234';
-    handleFacultyLogin();
-}
-
-function demoFillStudent() {
-    document.getElementById('student-enroll').value = '12024002037046';
-    document.getElementById('student-pass').value = '1234';
-}
-
 function handleFacultyLogin(event) {
     if (event) event.preventDefault();
     const id = document.getElementById('faculty-id').value;

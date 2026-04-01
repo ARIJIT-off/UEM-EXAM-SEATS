@@ -62,7 +62,7 @@ UEM SEATS/
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/uem-seats.git
+   git clone https://github.com/ARIJIT-off/UEM-EXAM-SEATS.git
    ```
 2. **Open the Application**:
    Simply open `index.html` in any modern web browser.

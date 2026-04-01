@@ -1,23 +1,21 @@
 :root {
-    --navy: #0A192F;
-    --navy-light: #112240;
-    --secondary: #64FFDA;
-    --gold: #FFC107;
-    --gold-dim: rgba(255, 193, 7, 0.8);
-    --white: #FFFFFF;
-    --text-dim: #8892B0;
-    --error: #FF4D4D;
-    --overlay: rgba(10, 25, 47, 0.7);
-    --glass: rgba(255, 255, 255, 0.1);
-    --glass-border: rgba(255, 255, 255, 0.2);
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --navy: #0d1b3e;
+    --gold: #FFD700;
+    --green: #2e7d32;
+    --red: #e53935;
+    --white: #ffffff;
+    --text-dim: #b0b8c4;
+    --overlay: rgba(0, 0, 0, 0.24);
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'DM Sans', sans-serif;
 }
 
 body {
@@ -25,6 +23,12 @@ body {
     color: var(--white);
     overflow-x: hidden;
     min-height: 100vh;
+    font-family: 'DM Sans', sans-serif;
+}
+
+h1, h2, h3, .branding {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
 }
 
 /* SCREEN MANAGEMENT */
@@ -40,13 +44,14 @@ body {
     align-items: center;
     background-size: cover;
     background-position: center;
-    transition: var(--transition);
+    transition: opacity 0.6s ease-in-out;
     padding: 20px;
+    opacity: 0;
 }
 
 .screen.active {
     display: flex;
-    animation: fadeIn 0.4s ease-out;
+    opacity: 1;
 }
 
 .overlay {
@@ -56,7 +61,7 @@ body {
     width: 100%;
     height: 100%;
     background: var(--overlay);
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(8px);
     z-index: -1;
 }
 
@@ -80,8 +85,8 @@ header {
 }
 
 .branding {
-    font-family: 'Outfit';
-    font-weight: 800;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
     font-size: 1.5rem;
     color: var(--gold);
     letter-spacing: 2px;
@@ -140,7 +145,7 @@ button {
     padding: 1rem 2rem;
     border-radius: 12px;
     font-weight: 700;
-    font-family: 'Outfit';
+    font-family: 'Rajdhani', sans-serif;
     box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
 }
 
@@ -158,9 +163,9 @@ button {
 }
 
 .btn-logout {
-    background: rgba(255, 77, 77, 0.1);
-    color: var(--error);
-    border: 1px solid rgba(255, 77, 77, 0.2);
+    background: rgba(229, 57, 53, 0.1);
+    color: var(--red);
+    border: 1px solid rgba(229, 57, 53, 0.2);
     padding: 12px 24px;
     border-radius: 10px;
 }
@@ -291,11 +296,9 @@ input::placeholder {
     text-align: left;
 }
 
-.ticket-header h2 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    font-family: 'Outfit';
-    font-weight: 800;
+.ticket-header h1, h2, h3, .branding {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
 }
 
 .ticket-header p {

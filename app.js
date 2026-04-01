@@ -47,7 +47,7 @@ function showScreen(id) {
     const nextBtn = document.getElementById('nav-btn-next');
     
     if (header) {
-        header.style.display = (id === 'landing' || id === 'faculty-login' || id === 'student-login') ? 'none' : 'flex';
+        header.style.display = (id === 'landing') ? 'none' : 'flex';
     }
 
     if (floatingNav) {
@@ -65,9 +65,9 @@ function showScreen(id) {
         
         // Update Next button text based on context
         if (nextBtn) {
-            if (id === 'upload-routine') nextBtn.innerText = 'GO TO STUDENTS →';
-            else if (id === 'upload-students') nextBtn.innerText = 'GO TO ALLOCATION →';
-            else if (id === 'allocate-rooms') nextBtn.innerText = 'EXECUTE ALLOCATION →';
+            if (id === 'upload-routine') nextBtn.innerText = 'GO TO STUDENTS';
+            else if (id === 'upload-students') nextBtn.innerText = 'GO TO ALLOCATION';
+            else if (id === 'allocate-rooms') nextBtn.innerText = 'EXECUTE ALLOCATION';
         }
     }
 
@@ -405,7 +405,7 @@ function renderAllocationSummary(rooms) {
     const container = document.getElementById('alloc-summary');
     let html = `<table><tr><th>Room</th><th>Occupancy</th><th>Status</th></tr>`;
     rooms.forEach(r => {
-        html += `<tr><td>${r.name}</td><td>${r.current}/${r.cap}</td><td><span style="color:var(--secondary)">✓ Active</span></td></tr>`;
+        html += `<tr><td>${r.name}</td><td>${r.current}/${r.cap}</td><td><span style="color:var(--green)">Active</span></td></tr>`;
     });
     html += `</table>`;
     container.innerHTML = html;
@@ -426,19 +426,19 @@ function generateStudentResult(data) {
             <div class="ticket-body">
                 <div class="ticket-grid">
                     <div class="info-item">
-                        <label>📅 Date</label>
+                        <label>Date</label>
                         <span>${data.examDate}</span>
                     </div>
                     <div class="info-item">
-                        <label>🕒 Time</label>
+                        <label>Time</label>
                         <span>${data.examTime}</span>
                     </div>
                     <div class="info-item">
-                        <label>🏢 Bldg</label>
+                        <label>Building</label>
                         <span>${data.building}</span>
                     </div>
                     <div class="info-item">
-                        <label>📍 Room</label>
+                        <label>Room</label>
                         <span>${data.room}</span>
                     </div>
                 </div>
@@ -447,7 +447,7 @@ function generateStudentResult(data) {
                 
                 <div style="text-align:center; margin-bottom:1rem;">
                     <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-dim); margin-bottom:5px; letter-spacing:1px;">Seat Index</div>
-                    <div style="font-size:3.5rem; font-weight:800; color:var(--gold); font-family:'Outfit'; line-height:1;">${data.seat}</div>
+                    <div style="font-size:3.5rem; font-weight:800; color:var(--gold); line-height:1;">${data.seat}</div>
                 </div>
             </div>
 

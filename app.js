@@ -78,7 +78,6 @@ function showScreen(id) {
     // Screen specific inits
     switch (id) {
         case 'faculty-dash': break;
-        case 'view-layout': initViewLayout(); break;
         case 'view-all': renderAllAllocations(); break;
         case 'ai-verify': startAICamera(); break;
     }
@@ -506,69 +505,7 @@ function downloadQR() {
     document.body.removeChild(a);
 }
 
-// --- LAYOUT VIEWER ---
-function initViewLayout() {
-    const bSelect = document.getElementById('layout-building');
-    bSelect.innerHTML = Object.keys(BUILDINGS).map(b => `<option value="${b}">${b} Building</option>`).join('');
-    populateFloors('layout');
-}
 
-function populateFloors(prefix) {
-    const b = document.getElementById(prefix + '-building').value;
-    const fSelect = document.getElementById(prefix + '-floor');
-    fSelect.innerHTML = Object.keys(BUILDINGS[b].floors).map(f => `<option value="${f}">Floor ${f}</option>`).join('');
-    populateRooms(prefix);
-}
-
-function populateRooms(prefix) {
-    const b = document.getElementById(prefix + '-building').value;
-    const f = document.getElementById(prefix + '-floor').value;
-    const rSelect = document.getElementById(prefix + '-room');
-    const bInfo = BUILDINGS[b];
-    
-    let rooms = [];
-    for(let r=1; r<=bInfo.floors[f]; r++) {
-        const key = `${f}.${r}`;
-        const name = bInfo.special?.[key] || `${b}${f}.${r}`;
-        rooms.push(`<option value="${name}">${name}</option>`);
-    }
-    rSelect.innerHTML = rooms.join('');
-}
-
-function renderLayout() {
-    const room = document.getElementById('layout-room').value;
-    const allAlloc = Object.values(JSON.parse(localStorage.getItem('seatAllocation') || '{}'));
-    
-    const bCode = Object.keys(BUILDINGS).find(k => room.startsWith(k));
-    // Fixed parsing for floor number
-    const floorPart = room.split('.')[0];
-    const floorNum = room.includes('RRR') ? '4' : floorPart.charAt(floorPart.length - 1);
-    const cap = BUILDINGS[bCode].caps[floorNum] || 30;
-
-    const filtered = allAlloc.filter(a => a.room === room);
-    const container = document.getElementById('layout-display-container');
-    
-    // Direct rendering to avoid DOM removal/insertion issues in timeouts
-    console.log(`Rendering Room: ${room}, Capacity: ${cap}`);
-    container.innerHTML = '<div class="layout-grid"></div>';
-    const grid = container.querySelector('.layout-grid');
-
-    for(let i=1; i<=cap; i++) {
-        const student = filtered.find(a => parseInt(a.seat) === i);
-        const cell = document.createElement('div');
-        cell.className = 'seat';
-        
-        if(student) {
-            cell.classList.add('occupied');
-            cell.title = `${student.name} (${student.stream})`;
-            cell.innerHTML = `<i>Seat</i>${i}`;
-        } else {
-            cell.innerHTML = `<i>Available</i>${i}`;
-            cell.style.opacity = '0.3';
-        }
-        grid.appendChild(cell);
-    }
-}
 
 // --- ALL ALLOCATIONS ---
 function renderAllAllocations() {

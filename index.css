@@ -151,10 +151,9 @@ button {
     box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
 }
 
-.btn-gold:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.4);
-}
+.btn-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(255, 215, 0, 0.4); background: #eee; color: #000; }
+.btn-red { background: linear-gradient(135deg, #ff4d4d 0%, #b30000 100%); color: var(--white); border: none; padding: 1.2rem 2.5rem; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+.btn-red:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3); }
 
 .btn-back {
     background: transparent;

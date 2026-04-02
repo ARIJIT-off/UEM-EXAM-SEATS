@@ -79,6 +79,7 @@ function showScreen(id) {
     switch (id) {
         case 'faculty-dash': break;
         case 'view-all': renderAllAllocations(); break;
+        case 'manual-override': renderManualOverride(); break;
         case 'ai-verify': startAICamera(); break;
     }
 }
@@ -520,6 +521,94 @@ function renderAllAllocations() {
             ${filtered.map(a => `<tr><td>${a.id}</td><td>${a.name}</td><td>${a.stream}</td><td>${a.room}</td><td>${a.seat}</td></tr>`).join('')}
         </table>
     `;
+}
+
+// --- MANUAL OVERRIDE LOGIC ---
+function renderManualOverride() {
+    const allocation = JSON.parse(localStorage.getItem('seatAllocation') || '{}');
+    state.tempAllocation = { ...allocation }; // Work on a copy
+    renderManualOverrideTable();
+}
+
+function renderManualOverrideTable() {
+    const list = Object.entries(state.tempAllocation);
+    const container = document.getElementById('manual-override-table');
+    
+    if (list.length === 0) {
+        container.innerHTML = '<p style="text-align:center; padding: 2rem; color: var(--text-dim);">No allocations found. Add students manually above.</p>';
+        return;
+    }
+
+    container.innerHTML = `
+        <table>
+            <tr>
+                <th>Enrollment ID</th>
+                <th>Name</th>
+                <th>Subject</th>
+                <th>Room</th>
+                <th>Seat</th>
+                <th>Action</th>
+            </tr>
+            ${list.map(([key, a]) => `
+                <tr>
+                    <td>${a.id}</td>
+                    <td>${a.name}</td>
+                    <td>${a.subject}</td>
+                    <td>${a.room}</td>
+                    <td>${a.seat}</td>
+                    <td><button class="btn-red" style="padding: 0.3rem 0.8rem; font-size: 0.7rem;" onclick="removeManualAllocation('${key}')">REMOVE</button></td>
+                </tr>
+            `).join('')}
+        </table>
+    `;
+}
+
+function addManualStudent() {
+    const id = document.getElementById('manual-id').value;
+    const name = document.getElementById('manual-name').value;
+    const subject = document.getElementById('manual-subject').value;
+    const room = document.getElementById('manual-room').value;
+    const seat = document.getElementById('manual-seat').value;
+
+    if (!id || !name || !subject || !room || !seat) {
+        return alert("Please fill all fields to add a student.");
+    }
+
+    const key = `${id}_${subject.replace(/\s+/g, '_')}`;
+    
+    state.tempAllocation[key] = {
+        id,
+        name,
+        subject,
+        room,
+        seat,
+        building: room.slice(0, 2), // Rough guess
+        stream: "Manual",
+        examDate: "Manual",
+        examTime: "Manual"
+    };
+
+    // Clear inputs
+    ['manual-id', 'manual-name', 'manual-subject', 'manual-room', 'manual-seat'].forEach(fid => {
+        document.getElementById(fid).value = '';
+    });
+
+    renderManualOverrideTable();
+}
+
+function removeManualAllocation(key) {
+    if (confirm("Are you sure you want to remove this allocation?")) {
+        delete state.tempAllocation[key];
+        renderManualOverrideTable();
+    }
+}
+
+function finalizeManualOverride() {
+    if (confirm("Finalize allocation? This will update the master registry.")) {
+        localStorage.setItem('seatAllocation', JSON.stringify(state.tempAllocation));
+        alert("Allocation finalized successfully!");
+        showScreen('view-all');
+    }
 }
 
 // --- UTILS ---

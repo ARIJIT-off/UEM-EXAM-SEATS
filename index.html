@@ -132,6 +132,10 @@
                         <h3>Master Data</h3>
                         <p>Review comprehensive reports</p>
                     </div>
+                    <div class="dash-card" onclick="showScreen('manual-override')">
+                        <h3>Manual Override</h3>
+                        <p>Edit or add allocations</p>
+                    </div>
                     <div class="dash-card" onclick="downloadCSV()">
                         <h3>Export CSV</h3>
                         <p>Download full seat registry</p>
@@ -194,7 +198,10 @@
             <div class="card" style="max-width: 800px;">
                 <h2 id="alloc-success-msg">Optimization Complete</h2>
                 <div id="alloc-summary" class="table-container"></div>
-                <button class="btn-gold" style="margin-top: 2rem;" onclick="downloadCSV()">Download Master Registry (CSV)</button>
+                <div style="display: flex; gap: 15px; margin-top: 2rem;">
+                    <button class="btn-primary" onclick="showScreen('manual-override')">Edit / Manual Override</button>
+                    <button class="btn-gold" onclick="downloadCSV()">Download Master Registry (CSV)</button>
+                </div>
             </div>
         </div>
 
@@ -205,9 +212,58 @@
             <div class="card" style="max-width: 1200px; width: 95%;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                     <h2>Master Registry</h2>
-                    <input type="text" id="search-all" placeholder="Search Filter..." oninput="renderAllAllocations()" style="max-width: 300px;">
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="search-all" placeholder="Search Filter..." oninput="renderAllAllocations()" style="max-width: 300px;">
+                        <button class="btn-primary" style="padding: 0.5rem 1rem;" onclick="showScreen('manual-override')">Edit Mode</button>
+                    </div>
                 </div>
                 <div id="all-allocations-table" class="table-container"></div>
+            </div>
+        </div>
+
+        <!-- 4.4 MANUAL OVERRIDE SCREEN (NEW) -->
+        <div id="screen-manual-override" class="screen">
+            <div class="overlay"></div>
+            <div class="card" style="max-width: 1200px; width: 95%;">
+                <h2 style="color: var(--gold); margin-bottom: 1.5rem;">Manual Allocation Override</h2>
+                
+                <div class="glass" style="padding: 1.5rem; margin-bottom: 2rem; border: 1px solid var(--gold);">
+                    <h3 style="margin-bottom: 1rem;">Add Student Manually</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="form-group">
+                            <label>Enrollment ID</label>
+                            <input type="text" id="manual-id" placeholder="e.g. 12022002016001">
+                        </div>
+                        <div class="form-group">
+                            <label>Student Name</label>
+                            <input type="text" id="manual-name" placeholder="Full Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" id="manual-subject" placeholder="Paper Name/Code">
+                        </div>
+                        <div class="form-group">
+                            <label>Room</label>
+                            <input type="text" id="manual-room" placeholder="e.g. B11.1">
+                        </div>
+                        <div class="form-group">
+                            <label>Seat No</label>
+                            <input type="number" id="manual-seat" placeholder="Seat Index">
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: flex-end;">
+                            <button class="btn-gold" style="width: 100%; height: 45px;" onclick="addManualStudent()">Add to Registry</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="manual-override-table" class="table-container">
+                    <!-- Dynamic table with delete buttons -->
+                </div>
+
+                <div style="margin-top: 2rem; display: flex; justify-content: flex-end; gap: 15px;">
+                    <button class="btn-primary" onclick="showScreen('faculty-dash')">Cancel Changes</button>
+                    <button class="btn-gold" style="padding: 1rem 3rem;" onclick="finalizeManualOverride()">Finalize & Lock Allocation</button>
+                </div>
             </div>
         </div>
 
